@@ -51,7 +51,7 @@ docker compose version
 ### 3. Cloner le repository
 ```bash
 cd ~
-git clone https://gitlab.com/samuel-deville/homelab-docker.git
+git clone https://github.com/devillesamuel-dot/homelab-docker
 cd homelab-docker
 ```
 
