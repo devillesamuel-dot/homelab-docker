@@ -102,7 +102,7 @@ Infrastructure complète de monitoring et de gestion de containers basée sur Do
 
 #### 1. Cloner le repository
 ```bash
-git clone https://gitlab.com/samuel-deville/homelab-docker.git
+git clone https://github.com/devillesamuel-dot/homelab-docker
 cd homelab-docker
 ```
 
@@ -149,18 +149,20 @@ Tous les containers doivent afficher le statut `Up`.
 
 ### Dashboard Grafana - Node Exporter Full
 Monitoring en temps réel du serveur (CPU, RAM, disque, réseau)
+<img width="1524" height="543" alt="image" src="https://github.com/user-attachments/assets/dbc100e0-7106-4cc3-8fea-2560a1d03b16" />
 
-*[Screenshot à ajouter]*
 
 ### Traefik Dashboard
 Vue d'ensemble des routes HTTP et des services
 
-*[Screenshot à ajouter]*
+<img width="1219" height="392" alt="image" src="https://github.com/user-attachments/assets/8a501cd8-8c9d-40ab-b776-56e8c30d8062" />
+
 
 ### Prometheus Targets
 État des targets de collecte de métriques
 
-*[Screenshot à ajouter]*
+<img width="1844" height="478" alt="image" src="https://github.com/user-attachments/assets/6482787a-acf0-424b-85b3-232e62e540ef" />
+
 
 ---
 
