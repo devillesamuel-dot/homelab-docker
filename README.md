@@ -261,7 +261,7 @@ Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de
 **Samuel Deville**
 - 15 ans d'expérience en infrastructure IT
 - Spécialités : Systèmes critiques, DevOps, Monitoring
-- LinkedIn : https://linkedin.com/in/samuel-deville
+- LinkedIn : https://www.linkedin.com/in/samuel-deville-b05884207
 - GitHub : https://devillesamuel-dot
 
 ---
