@@ -1,0 +1,39 @@
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - traefik-net
+      - crowdsec-net
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/docker-volumes/traefik:/etc/traefik
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=traefik-net"
+      - "--entrypoints.web.address=:80"
+      - "--log.level=INFO"
+      # Logs d'accès
+      - "--accesslog=true"
+      - "--accesslog.filepath=/etc/traefik/access.log"
+      # Config dynamique
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.file.watch=true"
+      # Plugin CrowdSec
+      - "--experimental.plugins.bouncer.modulename=github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      - "--experimental.plugins.bouncer.version=v1.3.5"
+
+networks:
+  traefik-net:
+    external: true
+  crowdsec-net:
+    external: true

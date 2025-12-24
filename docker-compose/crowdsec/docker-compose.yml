@@ -1,0 +1,36 @@
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    restart: unless-stopped
+    environment:
+      - COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/http-cve
+      - METRICS_ADDR=0.0.0.0:6060
+    ports:
+      - "8081:8080"
+      - "6060:6060"
+    volumes:
+      - /mnt/docker-volumes/crowdsec/config:/etc/crowdsec
+      - /mnt/docker-volumes/crowdsec/data:/var/lib/crowdsec/data
+      - /var/log/auth.log:/var/log/auth.log:ro
+      - /var/log/syslog:/var/log/syslog:ro
+      - /mnt/docker-volumes/traefik/access.log:/var/log/traefik/access.log:ro
+    networks:
+      - crowdsec-net
+      - traefik-net  # ← Réseau manquant !
+      - monitoring
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-net"
+      - "traefik.http.routers.crowdsec.rule=Host(`crowdsec.lab.local`)"
+      - "traefik.http.routers.crowdsec.entrypoints=web"
+      - "traefik.http.services.crowdsec.loadbalancer.server.port=8080"
+      - "traefil.http.routers.crowdsec.middleware=crowdsec-bouncer@file"
+
+networks:
+  crowdsec-net:
+    name: crowdsec-net
+  traefik-net:
+    external: true
+  monitoring:
+    external: true

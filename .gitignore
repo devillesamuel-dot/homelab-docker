@@ -1,0 +1,17 @@
+# Fichiers sensibles
+*.key
+*.pem
+*.env
+*credentials*
+*password*
+
+# Données volumes
+data/
+volumes/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
