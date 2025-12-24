@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--log.level=INFO"
+      - "--accesslog=true"
+    
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/docker-volumes/traefik:/letsencrypt
+    
+    networks:
+      - traefik-net
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/docker-volumes/portainer:/data
+    
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.lab.local`)"
+      - "traefik.http.routers.portainer.entrypoints=web"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+    
+    networks:
+      - traefik-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    user: "472:472"
+    
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_DATA=/var/lib/grafana
+      - GF_PATHS_LOGS=/var/log/grafana
+      - GF_PATHS_PLUGINS=/var/lib/grafana/plugins
+    
+    volumes:
+      - /mnt/docker-volumes/grafana:/var/lib/grafana
+    
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.lab.local`)"
+      - "traefik.http.routers.grafana.entrypoints=web"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    
+    networks:
+      - traefik-net
+
+  whoami:
+    image: traefik/whoami
+    container_name: whoami
+    restart: unless-stopped
+    
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.lab.local`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+    
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    name: traefik-net

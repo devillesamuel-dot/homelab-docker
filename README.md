@@ -1,173 +1,275 @@
-# 🏠 Homelab Infrastructure - Production-Ready Docker Stack
 
-> Infrastructure de monitoring, sécurité et reverse proxy déployée sur Ubuntu Server 24.04 LTS
+# 🏠 Homelab Docker - Infrastructure de Monitoring
 
-[![Docker](https://img.shields.io/badge/Docker-24.0+-blue.svg)](https://www.docker.com/)
-[![Ubuntu](https://img.shields.io/badge/Ubuntu-24.04_LTS-orange.svg)](https://ubuntu.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+Infrastructure complète de monitoring et de gestion de containers basée sur Docker, Traefik, Prometheus et Grafana.
 
-## 🎯 Vue d'ensemble
-
-Stack Docker complète démontrant des compétences en :
-- **Administration systèmes Linux** (Ubuntu Server)
-- **Conteneurisation** (Docker, Docker Compose)  
-- **Monitoring** (Prometheus, Grafana)
-- **Cybersécurité** (CrowdSec IDS/IPS)
-- **Automatisation** (Backups, Scripts Bash)
-
-## 🏗️ Architecture
-```
-Internet/LAN
-     │
-     ▼
-┌─────────────┐
-│   Traefik   │ ← Reverse Proxy + CrowdSec Bouncer
-│  (Port 80)  │   
-└──────┬──────┘
-       │
-   ┌───┴────┬────────┬─────────┐
-   ▼        ▼        ▼         ▼
-┌────────┐ ┌────┐ ┌────────┐ ┌─────────┐
-│Grafana │ │Prom│ │Portainer│ │CrowdSec │
-└────────┘ └────┘ └────────┘ └─────────┘
-```
-
-## 📊 Services Déployés
-
-| Service | Description | URL | Status |
-|---------|-------------|-----|--------|
-| **Traefik** | Reverse proxy & dashboard | `traefik.lab.local` | ✅ |
-| **Grafana** | Monitoring dashboards | `grafana.lab.local` | ✅ |
-| **Prometheus** | Metrics collection | `prometheus.lab.local` | ✅ |
-| **Portainer** | Docker management | `portainer.lab.local` | ✅ |
-| **CrowdSec** | IDS/IPS security | `crowdsec.lab.local` | ✅ |
-| **Node Exporter** | System metrics | - | ✅ |
-| **cAdvisor** | Container metrics | - | ✅ |
-
-## 🔒 Sécurité CrowdSec
-
-### Statistiques en temps réel
-- **16 690+ IPs bannies** via Cyber Threat Intelligence
-- **Protection active** contre SSH brute-force, HTTP exploits, port scanning
-- **Intégration Traefik** pour blocage automatique
-
-### Top menaces détectées
-```
-http:scan        : 6 387 décisions
-ssh:bruteforce   : 4 471 décisions  
-http:crawl       : 1 725 décisions
-http:exploit     :   935 décisions
-```
-
-## 🚀 Quick Start
-
-### Prérequis
-```bash
-# Ubuntu Server 24.04 LTS
-sudo apt update && sudo apt install -y docker.io docker-compose git
-```
-
-### Déploiement
-```bash
-git clone https://github.com/TON-USERNAME/homelab-docker.git
-cd homelab-docker
-
-# Créer les réseaux
-docker network create traefik-net
-docker network create monitoring  
-docker network create crowdsec-net
-
-# Déployer les services
-cd docker-compose/traefik && docker compose up -d
-cd ../monitoring && docker compose up -d
-cd ../crowdsec && docker compose up -d
-```
-
-## 📚 Documentation
-
-- [📦 Installation complète](docs/INSTALLATION.md)
-- [🔧 Configuration Traefik](docs/TRAEFIK.md)
-- [🛡️ Setup CrowdSec](docs/CROWDSEC.md)
-- [📊 Monitoring Grafana](docs/MONITORING.md)
-- [💾 Stratégie Backup](docs/BACKUPS.md)
-- [🔍 Troubleshooting](docs/TROUBLESHOOTING.md)
-
-## 💾 Backups Automatisés
-
-- **Quotidien** : Configurations (3h) → Rétention 7 jours
-- **Hebdomadaire** : Données complètes (Dimanche 4h) → Rétention 3 semaines
-- **Stockage** : Disque USB 3TB
-
-## 🎓 Compétences Démontrées
-
-### 🐧 Linux & Systèmes
-- Administration Ubuntu Server 24.04 LTS
-- Configuration réseau & DNS local
-- Scripting Bash & automatisation cron
-- Gestion des permissions & sécurité
-
-### 🐳 Conteneurisation
-- Docker & Docker Compose avancé
-- Gestion multi-réseaux Docker
-- Volumes & persistance données
-- Orchestration multi-containers
-
-### 📊 Monitoring & Observabilité
-- Prometheus (scraping, PromQL)
-- Grafana (dashboards, alerting)
-- Métriques système (Node Exporter)
-- Métriques containers (cAdvisor)
-
-### 🔐 Cybersécurité
-- IDS/IPS (CrowdSec)
-- Cyber Threat Intelligence (CTI)
-- Log analysis & pattern detection
-- Automated incident response
-- Traefik bouncer integration
-
-### ⚙️ DevOps
-- Infrastructure as Code
-- GitOps workflow
-- Automated backups & DR
-- Documentation technique
-
-## 📸 Screenshots
-
-### Dashboard Grafana
-![Grafana Dashboard](screenshots/grafana-dashboard.png)
-
-### CrowdSec Security
-![CrowdSec Metrics](screenshots/crowdsec-metrics.png)
-
-### Traefik Routing
-![Traefik Dashboard](screenshots/traefik-dashboard.png)
-
-## 🛠️ Structure du Projet
-```
-homelab-docker/
-├── docker-compose/         # Docker Compose files
-│   ├── monitoring/        # Prometheus, Grafana, exporters
-│   ├── traefik/           # Reverse proxy
-│   ├── crowdsec/          # Security stack
-│   └── portainer/         # Docker management
-├── docs/                  # Documentation détaillée
-├── scripts/               # Scripts d'automatisation
-├── screenshots/           # Captures d'écran
-└── README.md             # Ce fichier
-```
-
-## 📞 Contact
-
-**Samuel** - Administrateur Systèmes & Réseaux  
-🎯 Recherche poste : Admin Sys/Réseau, Support N2/N3, Cybersécurité  
-📍 Auvergne-Rhône-Alpes, France  
-🔗 LinkedIn : [Votre profil]  
-📧 Email : [Votre email]
-
-## 📄 Licence
-
-MIT License - Libre d'utilisation pour apprentissage et référence.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-⭐ **Si ce projet vous inspire, n'hésitez pas à le star !**
+## 🎯 Objectifs du Projet
+
+- Déployer une stack de monitoring moderne et scalable
+- Automatiser le déploiement avec Docker Compose et Infrastructure as Code
+- Apprendre les pratiques DevOps/InfraOps
+- Créer un environnement de lab pour tester de nouvelles technologies
+- Documenter les solutions aux problèmes courants
+
+---
+
+## 🏗️ Architecture
+```
+┌─────────────────────────────────────────────┐
+│           TRAEFIK (Reverse Proxy)           │
+│    Auto-discovery • SSL • Load Balancing    │
+│         Port 80, 443, 8080 (dashboard)      │
+└──────────┬──────────┬───────────┬───────────┘
+           │          │           │
+           ▼          ▼           ▼
+    ┌──────────┐  ┌──────────┐  ┌──────────┐
+    │ Portainer│  │ Grafana  │  │  Whoami  │
+    │  :9000   │  │  :3000   │  │   :80    │
+    └──────────┘  └─────┬────┘  └──────────┘
+                        │
+                        ▼
+                  ┌──────────┐
+                  │Prometheus│
+                  │  :9090   │
+                  └────┬─────┘
+                       │
+           ┌───────────┴───────────┐
+           ▼                       ▼
+    ┌──────────┐          ┌──────────┐
+    │   Node   │          │ cAdvisor │
+    │ Exporter │          │  :8080   │
+    │  :9100   │          │          │
+    └──────────┘          └──────────┘
+```
+
+---
+
+## 🛠️ Stack Technique
+
+### Infrastructure
+- **OS** : Ubuntu Server 24.04 LTS
+- **Containerisation** : Docker 27.x + Docker Compose v2
+- **Stockage** : 512 Go SSD (système) + 3 To HDD USB (données)
+- **RAM** : 32 Go
+- **CPU** : 6 cores
+
+### Services Déployés
+
+| Service | Version | Description | Port |
+|---------|---------|-------------|------|
+| **Traefik** | v3.2 | Reverse proxy moderne avec service discovery automatique | 80, 443, 8080 |
+| **Portainer** | CE latest | Interface web de gestion des containers Docker | 9000, 9443 |
+| **Prometheus** | latest | Base de données time-series pour les métriques | 9090 |
+| **Grafana** | latest | Plateforme de visualisation et dashboards | 3000 |
+| **Node Exporter** | latest | Export des métriques système (CPU, RAM, disque, réseau) | 9100 |
+| **cAdvisor** | latest | Monitoring des containers Docker | 8080 |
+
+### Réseau
+- **DNS local** : dnsmasq (résolution automatique `*.lab.local`)
+- **Réseaux Docker** : 
+  - `traefik-net` (172.18.0.0/16) - Communication avec Traefik
+  - `monitoring` (172.19.0.0/16) - Communication interne monitoring
+
+---
+
+## 🌐 Services Accessibles
+
+| Service | URL | Credentials | Description |
+|---------|-----|-------------|-------------|
+| Traefik Dashboard | http://192.168.10.52:8080 | - | Visualisation des routes et services |
+| Portainer | http://portainer.lab.local | admin/[password] | Gestion des containers |
+| Grafana | http://grafana.lab.local | admin/admin | Dashboards de monitoring |
+| Prometheus | http://prometheus.lab.local | - | Métriques et targets |
+| Whoami | http://whoami.lab.local | - | Service de test |
+
+---
+
+## 🚀 Démarrage Rapide
+
+### Prérequis
+
+- Ubuntu Server 24.04 LTS (ou compatible)
+- Docker Engine 20.10+ et Docker Compose v2+
+- 4 Go RAM minimum (8 Go recommandé)
+- 50 Go d'espace disque minimum
+- Accès sudo
+
+### Installation
+
+#### 1. Cloner le repository
+```bash
+git clone https://github.com/devillesamuel-dot/homelab-docker
+cd homelab-docker
+```
+
+#### 2. Créer les réseaux Docker
+```bash
+docker network create traefik-net
+docker network create monitoring
+```
+
+#### 3. Créer les volumes
+```bash
+sudo mkdir -p /mnt/docker-volumes/{traefik,portainer,grafana,prometheus/{config,data}}
+sudo chown -R $USER:$USER /mnt/docker-volumes/
+sudo chown -R 472:472 /mnt/docker-volumes/grafana/
+```
+
+#### 4. Copier la config Prometheus
+```bash
+cp monitoring/prometheus.yml /mnt/docker-volumes/prometheus/config/
+```
+
+#### 5. Déployer Traefik + services
+```bash
+cd traefik
+docker compose up -d
+```
+
+#### 6. Déployer la stack de monitoring
+```bash
+cd ../monitoring
+docker compose up -d
+```
+
+#### 7. Vérifier le déploiement
+```bash
+docker ps
+```
+
+Tous les containers doivent afficher le statut `Up`.
+
+---
+
+## 📸 Captures d'écran
+
+### Dashboard Grafana - Node Exporter Full
+Monitoring en temps réel du serveur (CPU, RAM, disque, réseau)
+<img width="1524" height="543" alt="image" src="https://github.com/user-attachments/assets/dbc100e0-7106-4cc3-8fea-2560a1d03b16" />
+
+
+### Traefik Dashboard
+Vue d'ensemble des routes HTTP et des services
+
+<img width="1219" height="392" alt="image" src="https://github.com/user-attachments/assets/8a501cd8-8c9d-40ab-b776-56e8c30d8062" />
+
+
+### Prometheus Targets
+État des targets de collecte de métriques
+
+<img width="1844" height="478" alt="image" src="https://github.com/user-attachments/assets/6482787a-acf0-424b-85b3-232e62e540ef" />
+
+
+---
+
+## 📚 Documentation Complète
+
+- [📖 Guide d'installation détaillé](docs/installation.md)
+- [🏗️ Architecture technique](docs/architecture.md)
+- [🔧 Troubleshooting](docs/troubleshooting.md)
+
+---
+
+## 🎓 Compétences Démontrées
+
+### DevOps & Infrastructure
+- ✅ Infrastructure as Code (Docker Compose)
+- ✅ Containerisation et orchestration
+- ✅ Reverse proxy et service discovery automatique
+- ✅ Configuration de réseaux Docker avancés
+- ✅ Gestion de volumes persistants
+
+### Monitoring & Observability
+- ✅ Déploiement de stack Prometheus + Grafana
+- ✅ Configuration de collecteurs de métriques
+- ✅ Création et import de dashboards
+- ✅ Monitoring système et applicatif
+
+### Linux System Administration
+- ✅ Installation et configuration Ubuntu Server
+- ✅ Gestion des services systemd
+- ✅ Configuration réseau et DNS
+- ✅ Gestion des permissions et sécurité
+
+### Troubleshooting
+- ✅ Debugging de problèmes réseau Docker
+- ✅ Résolution de conflits de ports
+- ✅ Correction de problèmes de permissions
+- ✅ Analyse de logs et diagnostic
+
+---
+
+## �� Sécurité
+
+### Bonnes Pratiques Implémentées
+- Isolation réseau avec réseaux Docker dédiés
+- Volumes montés en read-only quand possible
+- Pas de ports sensibles exposés publiquement
+- Gestion des secrets via Docker secrets (à implémenter)
+
+### Améliorations Futures
+- [ ] Mise en place de HTTPS avec Let's Encrypt
+- [ ] Authentification centralisée (OAuth2)
+- [ ] Scanning de vulnérabilités des images
+- [ ] Backups automatiques chiffrés
+
+---
+
+## 🔄 Maintenance
+
+### Backups Automatiques
+
+Un script de backup est disponible dans `scripts/backup.sh` :
+```bash
+# Exécuter un backup manuel
+./scripts/backup.sh
+
+# Configurer un backup quotidien (cron)
+0 2 * * * /chemin/vers/homelab-docker/scripts/backup.sh
+```
+
+### Mises à Jour
+```bash
+# Mettre à jour les images Docker
+cd traefik && docker compose pull && docker compose up -d
+cd ../monitoring && docker compose pull && docker compose up -d
+```
+
+---
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! N'hésitez pas à :
+- Ouvrir une issue pour signaler un bug
+- Proposer des améliorations
+- Soumettre une pull request
+
+---
+
+## 📄 Licence
+
+Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+---
+
+## 👤 Auteur
+
+**Samuel Deville**
+- 15 ans d'expérience en infrastructure IT
+- Spécialités : Systèmes critiques, DevOps, Monitoring
+- LinkedIn : https://www.linkedin.com/in/samuel-deville-b05884207
+- GitHub : https://devillesamuel-dot
+
+---
+
+## 📞 Contact
+
+Pour toute question ou suggestion : (mailto:deville.samuel@gmail.com)
+
+---
+
+**⭐ Si ce projet vous a été utile, n'hésitez pas à lui donner une étoile !**
