@@ -266,7 +266,7 @@ docker stats
 💼 **Expérience** : 15 ans en IT (CORYS Framatome/EDF, Laboratoire BOIRON)  
 
 🔗 **LinkedIn** : [Samuel DEVILLE](https://linkedin.com/in/samuel-deville-b05884207/)  
-📧 **Email** : votre.email@example.com  
+📧 **Email** : deville.samuel@gmail.com  
 🐙 **GitHub** : [devillesamuel-dot](https://github.com/devillesamuel-dot)
 
 ## 📄 Licence
